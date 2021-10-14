@@ -1,0 +1,38 @@
+a)
+
+function thres = intermeans_12(im)
+    I = imread(im);
+
+    % Guess thres as mean of image gray level
+    thres = round(mean2(I));
+    
+    % Get image histogram
+    [h, D] = imhist(I);
+    
+    % Iteratively refine thres
+    thres_prev = -1;
+    while thres ~= thres_prev
+        thres_prev = thres;
+        % Section histogram using thres
+        idx = D <= thres;
+
+        % Calculate weighted mean of histogram sections 
+        meanLow = sum(D(idx).*h(idx))/sum(h(idx));
+        meanHi = sum(D(~idx).*h(~idx))/sum(h(~idx));
+        
+        % Recalculate thres
+        thres = round(mean([meanLow meanHi]));
+    end
+    
+    thres = thres/max(D);
+end
+
+b) 0.51373
+
+c) They are lost because the brightness of the pixels in those grains were below the threshold of 131 (un-normalized), and so were classified as black rather than white.
+
+d) Using `[L, num] = bwlabel(bw);`, we counted 151 grains.
+
+e) `bwareaopen(BW, P, CONN)` finds all the connected bodies of 'true' pixels in a binary image BW and eliminates all the bodies with fewer than P pixels. The connectivity criterion used can be defined using CONN.
+
+Using `bwareaopen(bw, 5)` causes the count to reduce to 97 grains.
