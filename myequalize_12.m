@@ -15,7 +15,7 @@ cumulative_sum = cumsum(H); % Calculate the cumulative distribution
 
 f_Da = cumulative_sum * (Dm/A0); % Calculate f(Da) by scaling by Dm/A0
 
-Db = uint8(round(f_Da)) % Round f(Da) to create Db
+Db = uint8(round(f_Da)); % Round f(Da) to create Db
 
 im2 = intlut(im, Db); % Use Db list as a lookup table for the original image
 

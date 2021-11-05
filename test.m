@@ -1,6 +1,6 @@
 % Test File
-im2 = myequalize_12(im);
 im = imread('pout.tif');
+im2 = myequalize_12(im);
 
 figure
 
