@@ -1,0 +1,19 @@
+1
+b)
+a1 = 105.0163
+a2 = 0.0428
+a3 = 0.1766
+a4 = -0.0003
+a5 = -0.0017
+a6 = -0.0000
+
+I would not expect these values to be identical to those found by other groups, because it is extremely unlikely that any two of us selected the same set of sampling points. As a result, the least-square fit will produce a slightly different background profile.
+
+c) Yes, level.m is working correctly. Comparing the levelled and unlevelled curves shows that the function has substantially darkened the background pixels without affecting the foreground pixels too much.
+
+2
+c) We considered dividing the image into  1, 4, 16, 64, 256, 1024, and 4096 square sub-areas for sampling of the background. These particular numbers were chosen because they are squares of powers of 2, and so result in integer values of M and N.
+
+Dividing the area into only 1 or 4 sub-areas results in a singular or near-singular matrix for background removal and is not effective. 8 sub-areas results in fairly good background removal. Using 16, 64, 256, or 1024 sub-areas does not result in visible improvements in background removal quality, and increases the computational power required. Using 4096 sub-areas forces the algorithm to select pixels that correspond to the rice as background samples, and so is pointless.
+
+In conclusion, dividing into 16 sub-areas (ndiv = 4), or M = N = 64 px, is the best setting.
