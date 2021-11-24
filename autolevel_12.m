@@ -1,6 +1,4 @@
 function [im2, a] = autolevel_12(fname)  
-    plotlevel = false;
-
     % Load image
     im = imread(fname);
     
@@ -16,30 +14,14 @@ function [im2, a] = autolevel_12(fname)
     % Perform levelling operation
     [im2, a] = level(im, x, y, I);
 
-    % Plot results with landmarks
-    if plotlevel
-        subplot(121);
-        imshow(im);
-        hold on;
-        plot(x, y, 'y+');
-        title('Original');
-
-        subplot(122);
-        imshow(im2);
-        title('Levelled');
     % Plot as per assignment requirements
-    else
-        imshow(im);
-        hold on;
-        plot(x, y, 'y+');
-    end
+    imshow(im);
+    hold on;
+    plot(x, y, 'y+');
 end
 
 % Private function to partition and sample image
 function [x, y] = getSamples(im)
-    % Show image partitioning diagnostics (for development purposes)
-    diagnostics = false;
-
     % Get image size
     [szx, szy] = size(im);
     
@@ -55,21 +37,8 @@ function [x, y] = getSamples(im)
     x = zeros(1, ndiv^2);
     y = zeros(1, ndiv^2);
     
-    if diagnostics
-        imshow(im);
-        hold on;
-    end
     for p = 1:ndiv
-        % Plot vertical division lines
-        if diagnostics
-            plot([1 szy], [M*(p - 1) M*(p - 1)], 'r');
-        end
-        for q = 1:ndiv
-            % Plot horizontal division lines
-            if diagnostics
-                plot([N*(q - 1) N*(q - 1)], [1 szx], 'r');
-            end
-            
+        for q = 1:ndiv   
             % Get submatrix
             lb = [M*(p - 1); N*(q - 1)] + 1;
             ub = [M*p; N*q];
@@ -89,10 +58,6 @@ function [x, y] = getSamples(im)
             y(n) = i;
             x(n) = j;
         end
-    end
-    % Plot sample points on diagnostic image
-    if diagnostics
-        plot(x, y, 'y+');
     end
 end
 
